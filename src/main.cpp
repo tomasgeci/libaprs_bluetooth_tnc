@@ -12,10 +12,10 @@ extern AX25Ctx AX25;
 char incomingByte;
 
 #ifdef TNC_CAR
-SoftwareSerial bluetooth(10, 11); // RX, TX (car)
+SoftwareSerial SerialPort(12, 11); // RX, TX (car)
 #pragma message("Building for /M TNC")
 #else
-SoftwareSerial bluetooth(12, 11); // RX, TX (tnc05, tnc06)
+SoftwareSerial SerialPort(12, 11); // RX-D12, TX-D11
 #pragma message("Building for /P TNC")
 #endif
 
@@ -25,20 +25,20 @@ void aprs_msg_callback(struct AX25Ctx *ctx) {
 
 void setup() {
   Serial.begin(9600);
-  bluetooth.begin(9600);
+  SerialPort.begin(9600);
 
   APRS_init(ADC_REFERENCE, OPEN_SQUELCH);
   //APRS_setTail(1000U);
-  kiss_init(&AX25, &modem, &Serial, &bluetooth);
-  //Serial.println("started");
+  kiss_init(&AX25, &modem, &Serial, &SerialPort);
+  Serial.println("TNC started");
 }
 
 void loop() {
   APRS_poll();
-  while (bluetooth.available() > 0) {
-    incomingByte = bluetooth.read();
-    //Serial.write(incomingByte);
+  while (SerialPort.available() > 0) {
+    incomingByte = SerialPort.read();
     kiss_serialCallback(incomingByte);
+    Serial.write(incomingByte);
   }
   while (Serial.available() > 0) {
     incomingByte = Serial.read();
