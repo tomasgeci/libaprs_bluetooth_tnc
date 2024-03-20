@@ -64,6 +64,9 @@ Use this hardware:
 - http://unsigned.io/micromodem/ *for Micromodem and libraries*
 - https://github.com/sh123/libaprs_bluetooth_tnc *for perfect idea and LibAPRS modifications*
 
+## Suport
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ## License
 
 - GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
